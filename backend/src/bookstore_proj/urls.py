@@ -8,8 +8,8 @@ from django.contrib import admin
 
 # Create a router and register our viewsets with it.
 router = DefaultRouter()
-router.register('category-list',CategoryViewSet,basename="category-list")
-router.register('book-list', BookViewSet,basename="book-list")
+router.register('category',CategoryViewSet,basename="category-api")
+router.register('book', BookViewSet,basename="book-api")
 
 
 

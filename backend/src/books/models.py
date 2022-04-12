@@ -18,8 +18,8 @@ class Category(models.Model):
         return self.title 
 
 
-    def get_absolute_url(self):
-        return reverse('category-detail', kwargs = {'slug': self.slug})
+    # def get_absolute_url(self):
+    #     return reverse('category-detail', kwargs = {'slug': self.slug})
 
     
 
@@ -46,8 +46,8 @@ class Book(models.Model):
         return self.name 
 
 
-    def get_absolute_url(self):
-        return reverse('category-detail', kwargs = {'slug': self.slug})
+    # def get_absolute_url(self):
+    #     return reverse('book-detail', kwargs = {'slug': self.slug})
 
     
 
