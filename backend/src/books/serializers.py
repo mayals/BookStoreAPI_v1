@@ -31,8 +31,8 @@ class CategorySerializer(serializers.ModelSerializer):
    )
     class Meta:
         model  = Category
-        fields = ['url','id','title','slug','books']
-        read_only_fields =  ['id','slug','url']                   # to  make these field only for read 
+        fields = ['id','url','title','slug','books']
+        read_only_fields =  ['id','url','slug','books']                   # to  make these field only for read 
         # you can use THIS WAY, it IS ALSO TRUE instead of the field url above
         # extra_kwargs = {'url': {'lookup_field': 'slug'}}
 
@@ -58,8 +58,8 @@ class BookSerializer(serializers.ModelSerializer):
     
     class Meta:
         model  = Book
-        fields = ['url','id','category','name','slug','created_at']
-        read_only_fields =  ['id','slug']                               # to  make these field only for read 
+        fields = ['id','url','slug','category','name','created_at']
+        read_only_fields =  ['id','url','slug','category']                               # to  make these field only for read 
         
         # you can use THIS WAY, it IS ALSO TRUE instead of the field url above
         # extra_kwargs = {'url': {'lookup_field': 'slug'}}
