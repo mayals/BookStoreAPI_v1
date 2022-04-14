@@ -1,8 +1,9 @@
 from rest_framework import serializers
 from .models import Category,Book
+from rest_framework.validators import UniqueValidator
 # https://www.django-rest-framework.org/api-guide/serializers/#how-hyperlinked-views-are-determined
 # https://www.django-rest-framework.org/api-guide/relations/#hyperlinkedrelatedfield
-
+# https://www.django-rest-framework.org/api-guide/validators/#uniquevalidator
 
 
 ''' Note: you must use 'serializers.ModelSerializer' NOT USE 'serializers.HyperlinkedIdentityField' for Main classes 'CategorySerializer' AND 'BookSerializer'
@@ -16,7 +17,7 @@ class CategorySerializer(serializers.ModelSerializer):
         if value is None:
             raise serializers.ValidationError('This field is required')
 
-    title = serializers.CharField(required=True,validators=[required])
+    title = serializers.CharField(required=True,validators=[required,UniqueValidator(queryset=Category.objects.all())])
 
 
     # this field to display the detail of book object 
@@ -58,7 +59,7 @@ class BookSerializer(serializers.ModelSerializer):
         if value is None:
             raise serializers.ValidationError('This field is required')
     
-    name = serializers.CharField(required=True,validators=[required])
+    name = serializers.CharField(required=True,validators=[required,UniqueValidator(queryset=Book.objects.all())])
 
     # this foreignkey field :to show category_id  for each book object as readable (as word - not number):
     category = serializers.SlugRelatedField(
