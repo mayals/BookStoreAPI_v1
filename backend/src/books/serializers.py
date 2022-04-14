@@ -12,6 +12,13 @@ from .models import Category,Book
 
         
 class CategorySerializer(serializers.ModelSerializer):
+    def required(value):
+        if value is None:
+            raise serializers.ValidationError('This field is required')
+
+    title = serializers.CharField(required=True,validators=[required])
+
+
     # this field to display the detail of book object 
     url = serializers.HyperlinkedIdentityField(
                                         # https://www.django-rest-framework.org/api-guide/serializers/#how-hyperlinked-views-are-determined
@@ -27,6 +34,7 @@ class CategorySerializer(serializers.ModelSerializer):
                                         lookup_field = 'slug',            # change lookup_field to use slug in move between paths insteade of id 
                                         many = True ,
                                         read_only = True ,
+                                        
                                                                              
    )
     class Meta:
@@ -35,6 +43,9 @@ class CategorySerializer(serializers.ModelSerializer):
         read_only_fields =  ['id','url','slug','books']                   # to  make these field only for read 
         # you can use THIS WAY, it IS ALSO TRUE instead of the field url above
         # extra_kwargs = {'url': {'lookup_field': 'slug'}}
+        
+        extra_kwargs = {'title': {'required': True}} # to not enter title=None value ,that makes error in database 
+
 
 
 
@@ -42,7 +53,13 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class BookSerializer(serializers.ModelSerializer):
+
+    def required(value):
+        if value is None:
+            raise serializers.ValidationError('This field is required')
     
+    name = serializers.CharField(required=True,validators=[required])
+
     # this foreignkey field :to show category_id  for each book object as readable (as word - not number):
     category = serializers.SlugRelatedField(
                             queryset = Category.objects.all(),
@@ -63,3 +80,5 @@ class BookSerializer(serializers.ModelSerializer):
         
         # you can use THIS WAY, it IS ALSO TRUE instead of the field url above
         # extra_kwargs = {'url': {'lookup_field': 'slug'}}
+        
+        extra_kwargs = {'name': {'required': True}}   # to not enter name=None value ,that makes error in database 
