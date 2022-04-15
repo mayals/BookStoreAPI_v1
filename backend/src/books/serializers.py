@@ -4,7 +4,8 @@ from rest_framework.validators import UniqueValidator
 # https://www.django-rest-framework.org/api-guide/serializers/#how-hyperlinked-views-are-determined
 # https://www.django-rest-framework.org/api-guide/relations/#hyperlinkedrelatedfield
 # https://www.django-rest-framework.org/api-guide/validators/#uniquevalidator
-
+# https://www.youtube.com/channel/UCh9biyYSlMzM9T3Xtxmglww/playlists
+# https://www.youtube.com/playlist?list=PLmDLs7JbXWNjr5vyJhfGu69sowgIUl8z5
 
 ''' Note: you must use 'serializers.ModelSerializer' NOT USE 'serializers.HyperlinkedIdentityField' for Main classes 'CategorySerializer' AND 'BookSerializer'
     and use 'serializers.HyperlinkedIdentityField' for 'url' field and 'related_name' field inside these classes'''
@@ -36,7 +37,8 @@ class CategorySerializer(serializers.ModelSerializer):
                                         many = True ,
                                         read_only = True ,
                                         
-                                                                             
+     
+
    )
     class Meta:
         model  = Category
@@ -47,7 +49,11 @@ class CategorySerializer(serializers.ModelSerializer):
         
         extra_kwargs = {'title': {'required': True}} # to not enter title=None value ,that makes error in database 
 
-
+        # https://www.django-rest-framework.org/api-guide/serializers/#specifying-nested-serialization
+        ''' The depth option should be set to an integer value that indicates the depth of relationships that should be traversed before reverting to a flat representation.
+            If you want to customize the way the serialization is done you'll need to define the field yourself.'''
+           
+            # depth = 1            # the i define the relation by define the field as i have done above
 
 
 
@@ -83,3 +89,9 @@ class BookSerializer(serializers.ModelSerializer):
         # extra_kwargs = {'url': {'lookup_field': 'slug'}}
         
         extra_kwargs = {'name': {'required': True}}   # to not enter name=None value ,that makes error in database 
+
+        # https://www.django-rest-framework.org/api-guide/serializers/#specifying-nested-serialization
+        ''' The depth option should be set to an integer value that indicates the depth of relationships that should be traversed before reverting to a flat representation.
+            If you want to customize the way the serialization is done you'll need to define the field yourself.'''
+           
+            # depth = 1            # the i define the relation by define the field as i have done above
