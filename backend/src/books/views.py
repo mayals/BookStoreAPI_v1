@@ -26,8 +26,8 @@ class CategoryViewSet(viewsets.ViewSet):
 
 
     def retrieve(self, request, slug=None):
-        queryset = self.queryset
-        category = get_object_or_404(queryset, slug=slug)
+        # queryset = self.queryset
+        category = get_object_or_404(Category, slug=slug)
         serializer = self.serializer_class(category, many = False, context = {'request': request})
         return Response(serializer.data)
 
@@ -42,8 +42,8 @@ class CategoryViewSet(viewsets.ViewSet):
 
     
     def update(self, request, slug=None, *args, **kwargs):
-        queryset = self.queryset
-        category = get_object_or_404(queryset, slug=slug)
+        # queryset = self.queryset
+        category = get_object_or_404(Category, slug=slug)
         serializer = self.serializer_class(category, data = request.data, context = {'request': request}, partial = True)
         serializer.is_valid(raise_exception=True)
         serializer.save(slug=slug, **serializer.validated_data)
@@ -51,8 +51,8 @@ class CategoryViewSet(viewsets.ViewSet):
        
        
     def destroy(self, request, slug=None, *args, **kwargs):
-        queryset = self.queryset
-        category = get_object_or_404(queryset, slug=slug)
+        # queryset = self.queryset
+        category = get_object_or_404(Category, slug=slug)
         category.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -76,12 +76,12 @@ class BookViewSet(viewsets.ViewSet):
     
     def list(self, request):
         queryset = Book.objects.all()
-        serializer = BookSerializer(queryset, many=True,context = {'request': request})
+        serializer = BookSerializer(queryset, many=True, context = {'request': request})
         return Response(serializer.data)
 
     def retrieve(self, request, slug=None):
-        queryset = Book.objects.all()
-        book = get_object_or_404(queryset, slug=slug)
+        # queryset = Book.objects.all()
+        book = get_object_or_404(Book, slug=slug)
         serializer = BookSerializer(book, many = False, context = {'request': request})
         return Response(serializer.data)
 
@@ -94,9 +94,9 @@ class BookViewSet(viewsets.ViewSet):
 
     
     def update(self, request, slug=None):
-        queryset = Book.objects.all()
-        book = get_object_or_404(queryset, slug=slug)
-        serializer = CategorySerializer(category, data= request.data, context = {'request': request})
+        # queryset = Book.objects.all()
+        book = get_object_or_404(Book, slug=slug)
+        serializer = BookSerializer(book, data= request.data, context = {'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status = status.HTTP_201_CREATED)   
@@ -105,8 +105,8 @@ class BookViewSet(viewsets.ViewSet):
 
         
     def destroy(self, request, slug=None, *args, **kwargs):
-        queryset = Book.objects.all()
-        book = get_object_or_404(queryset, slug=slug)
+        # queryset = Book.objects.all()
+        book = get_object_or_404(Book, slug=slug)
         book.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 

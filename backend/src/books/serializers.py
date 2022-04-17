@@ -83,7 +83,7 @@ class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model  = Book
         fields = ['id','url','slug','category','name','created_at']
-        read_only_fields =  ['id','url','slug','category']                               # to  make these field only for read 
+        read_only_fields =  ['id','url','slug','category']                               # to make these field only for read 
         
         # you can use THIS WAY, it IS ALSO TRUE instead of the field url above
         # extra_kwargs = {'url': {'lookup_field': 'slug'}}
