@@ -25,33 +25,42 @@ class CategoryViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
 
-    def retrieve(self, request, slug=None):
+    def retrieve(self,request,*args,**kwargs):
         # queryset = self.queryset
+        
+        # print(kwargs.get('slug'))
+        slug = kwargs.get('slug')
         category = get_object_or_404(Category, slug=slug)
-        serializer = self.serializer_class(category, many = False, context = {'request': request})
+        serializer = self.serializer_class(category, context = {'request': request})
         return Response(serializer.data)
 
 
     def create(self, request):
+        # print(request.data)
         serializer = self.serializer_class(data= request.data, context = {'request': request})
         if serializer.is_valid():
-            serializer.save(**serializer.validated_data)
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)   
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
-                            
+
+
+                   
 
     
-    def update(self, request, slug=None, *args, **kwargs):
+    def update(self, request, *args, **kwargs):
         # queryset = self.queryset
+        slug = kwargs.get('slug')
         category = get_object_or_404(Category, slug=slug)
-        serializer = self.serializer_class(category, data = request.data, context = {'request': request}, partial = True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save(slug=slug, **serializer.validated_data)
-        return Response(serializer.validated_data)
+        serializer = self.serializer_class(category, data= request.data, context = {'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status = status.HTTP_201_CREATED)   
+        return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
        
        
-    def destroy(self, request, slug=None, *args, **kwargs):
+    def destroy(self, request, *args, **kwargs):
         # queryset = self.queryset
+        slug = kwargs.get('slug')
         category = get_object_or_404(Category, slug=slug)
         category.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -69,7 +78,7 @@ class CategoryViewSet(viewsets.ViewSet):
 
 
 
-class BookViewSet(viewsets.ViewSet):
+class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class =  BookSerializer
     lookup_field = 'slug'                  # must write this to  make slug as lookup_field  

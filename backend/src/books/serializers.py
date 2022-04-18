@@ -14,6 +14,7 @@ from rest_framework.validators import UniqueValidator
 
         
 class CategorySerializer(serializers.ModelSerializer):
+    
     def required(value):
         if value is None:
             raise serializers.ValidationError('This field is required')
@@ -25,8 +26,8 @@ class CategorySerializer(serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(
                                         # https://www.django-rest-framework.org/api-guide/serializers/#how-hyperlinked-views-are-determined
                                         view_name = 'category-detail',   # view_name='{model_name}-detail'
-                                        lookup_field = 'slug'            # change lookup_field to use slug in move between paths insteade of id 
-    
+                                        lookup_field = 'slug',            # change lookup_field to use slug in move between paths insteade of id 
+                                        read_only = True ,
     
     )
     # to desplay all books belongs to this category 
@@ -77,7 +78,8 @@ class BookSerializer(serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(
                             # https://www.django-rest-framework.org/api-guide/serializers/#how-hyperlinked-views-are-determined
                             view_name = 'book-detail',   # view_name='{model_name}-detail'
-                            lookup_field ='slug'         # change lookup_field to use slug in move between paths insteade of id
+                            lookup_field ='slug',         # change lookup_field to use slug in move between paths insteade of id
+                            read_only = True , 
     )
     
     class Meta:
