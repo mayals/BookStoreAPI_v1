@@ -31,13 +31,13 @@ class CategoryViewSet(viewsets.ViewSet):
         # print(kwargs.get('slug'))
         slug = kwargs.get('slug')
         category = get_object_or_404(Category, slug=slug)
-        serializer = self.serializer_class(category, context = {'request': request})
+        serializer = CategorySerializer(category, context = {'request': request})
         return Response(serializer.data)
 
 
     def create(self, request):
         # print(request.data)
-        serializer = self.serializer_class(data= request.data, context = {'request': request})
+        serializer = CategorySerializer(data= request.data, context = {'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)   
@@ -47,11 +47,11 @@ class CategoryViewSet(viewsets.ViewSet):
                    
 
     
-    def update(self, request, *args, **kwargs):
+    def update(self, request,*args,**kwargs):
         # queryset = self.queryset
         slug = kwargs.get('slug')
         category = get_object_or_404(Category, slug=slug)
-        serializer = self.serializer_class(category, data= request.data, context = {'request': request})
+        serializer = CategorySerializer(category, data= request.data, context = {'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status = status.HTTP_201_CREATED)   
